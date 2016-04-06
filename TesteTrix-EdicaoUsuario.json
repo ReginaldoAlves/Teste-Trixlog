@@ -1,0 +1,85 @@
+{
+  "trigger_url": "https://api.runscope.com/radar/9befd3a1-2640-44df-9d76-43c96e65c886/trigger", 
+  "name": "Teste Trix - Edicao Usuario", 
+  "version": "1.0", 
+  "exported_at": 1459942432, 
+  "steps": [
+    {
+      "body": "", 
+      "form": {}, 
+      "headers": {}, 
+      "url": "{{baseURL}}/login?login=reginaldoalvesrca@gmail.com&password=4RmN2Y", 
+      "variables": [
+        {
+          "source": "response_text", 
+          "name": "url_token"
+        }
+      ], 
+      "args": {}, 
+      "step_type": "request", 
+      "auth": {}, 
+      "note": "POST para /login recebendo uma URL com token", 
+      "fragment": "", 
+      "assertions": [
+        {
+          "comparison": "equal_number", 
+          "value": 200, 
+          "source": "response_status"
+        }
+      ], 
+      "scripts": [], 
+      "data": "", 
+      "method": "POST"
+    }, 
+    {
+      "url": "{{url_token}}", 
+      "variables": [
+        {
+          "source": "response_headers", 
+          "property": "Set-Cookie", 
+          "name": "cookie"
+        }
+      ], 
+      "step_type": "request", 
+      "auth": {}, 
+      "fragment": "", 
+      "note": "GET para a URL com token recebendo um cookie", 
+      "headers": {}, 
+      "assertions": [
+        {
+          "comparison": "equal_number", 
+          "value": "302", 
+          "source": "response_status"
+        }
+      ], 
+      "scripts": [], 
+      "method": "GET"
+    }, 
+    {
+      "body": "{\r\n\"id\":11490,\r\n\"name\":\"Teste3\",\r\n\"login\":\"teste3\",\r\n\"email\":\"teste3@teste.com\",\r\n\"preferedLocale\":{\"id\":\"10000\"},\r\n\"organization\":{\"id\":\"10000\"},\r\n\"emailValid\":\"false\"\r\n}", 
+      "form": {}, 
+      "url": "{{baseURL}}:8025/trix/user/11490", 
+      "variables": [], 
+      "step_type": "request", 
+      "auth": {}, 
+      "fragment": "", 
+      "note": "PUT para :8025/trix/user com o cookie. Edi\u00e7\u00e3o de usu\u00e1rio (JSON)", 
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ], 
+        "Cookie": "{{cookie}}"
+      }, 
+      "assertions": [
+        {
+          "comparison": "equal", 
+          "value": "true", 
+          "source": "response_text"
+        }
+      ], 
+      "scripts": [], 
+      "method": "PUT"
+    }
+  ], 
+  "description": "1.5 Edi\u00e7\u00e3o do usu\u00e1rio criado em *1.1"
+}
